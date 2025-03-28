@@ -1,50 +1,44 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <algorithm> // For sorting (if needed)
 using namespace std;
 
-vector<int> parisum(vector<int> nums, int target){
+vector<int> pairSum(vector<int> nums, int target) {
     vector<int> ans;
-    int n=nums.size();
-    int i=0;
-    int j=n-1;
-    while (i<j)
-    {
-        int parsum=nums[i]+nums[j];
-        if (parsum>target)
-        {
+    int n = nums.size();
+    
+    // Ensure the array is sorted (if not already sorted)
+    sort(nums.begin(), nums.end());
+
+    int i = 0, j = n - 1;
+
+    while (i < j) {
+        int sum = nums[i] + nums[j];
+
+        if (sum > target) {
             j--;
-        }
-        else if (parsum<target)
-        {
+        } else if (sum < target) {
             i++;
-        }
-        else{
+        } else {
             ans.push_back(i);
             ans.push_back(j);
-            return ans;
+            return ans; // Return immediately after finding one pair
         }
-        
-        
     }
-    return ans;
-    
+
+    return {}; // Return an empty vector if no pair is found
 }
 
 int main() {
-    vector<int> nums = {2, 7, 11, 15};
+    vector<int> nums = {2, 7, 11, 15}; // Ensure the array is sorted
     int target = 9;
-    vector<int> ans = parisum(nums, target);
+    vector<int> ans = pairSum(nums, target);
 
     if (!ans.empty()) {
-        cout << "Indices: ";
-        for (int i : ans) {
-            cout << i << " ";
-        }
-        cout << endl;
+        cout << "Indices: " << ans[0] << ", " << ans[1] << endl;
     } else {
         cout << "No valid pair found." << endl;
     }
 
     return 0;
 }
-
